@@ -15,6 +15,7 @@ def startgame():
     for letter in word:
         display.append("_")
     print("Welcome to hangman!\n"
+          "Type 'quit' at any time to quit the game\n\n"
           "Your random word has been chosen.\n"
           "You can see how many letters are in it below.\n")
     print(display, "\n")
@@ -71,6 +72,9 @@ def playgame():
         guess = guess.casefold().strip()
         if guess == "guess":
             guesstheword()
+        elif guess == "quit":
+            print("K bye then <3")
+            exit()
         elif guess in entries:
             print("You've already guessed that letter! Here's the letters you've guessed so far:\n",entries,"\n")
         elif len(guess) > 1:
@@ -85,7 +89,19 @@ def playgame():
             if count > 0:
                 print(f"\nYou've got {count} letter guesses left and {3 - wordguess} chances to guess the word.\n")
             playguess(guess)
-            print(display)
+            if "_" not in display:
+                print(display)
+                print(f"That's right! The word was {guess}!")
+                print("*******************************\n"
+                      "You did it! You win! Woohoo!\n"
+                      "*******************************")
+                replayfunc()
+            else:
+                print(display)
+                if count == 0:
+                    print("\n\nYou're out of letter guesses!\n"
+                          "This is your last chance...try to guess the word!\n")
+                    guesstheword()
     print("\nOh no! ...you're out of guesses.\n"
           f"The correct answer was '{word}'.\n"
           "Better luck next time!")
